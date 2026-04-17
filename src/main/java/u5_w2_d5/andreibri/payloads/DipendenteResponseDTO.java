@@ -14,7 +14,6 @@ public class DipendenteResponseDTO {
     private Long id;
     private String nome;
     private String cognome;
-    private String password;
     private String email;
     private String avatar;
     private String username;

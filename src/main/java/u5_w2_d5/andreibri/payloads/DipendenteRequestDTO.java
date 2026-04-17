@@ -1,9 +1,11 @@
 package u5_w2_d5.andreibri.payloads;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class DipendenteRequestDTO {
 
     @NotBlank(message = "Lo username è obbligatorio")
