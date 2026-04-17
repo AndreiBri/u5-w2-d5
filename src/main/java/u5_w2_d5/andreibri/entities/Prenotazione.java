@@ -3,6 +3,8 @@ package u5_w2_d5.andreibri.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(
         name = "prenotazioni",
@@ -34,7 +36,7 @@ public class Prenotazione {
     private Dipendente dipendente;
 
     @Column(name = "data_richiesta", nullable = false)
-    private String dataRichiesta;
+    private LocalDate dataRichiesta;
 
     @Column(columnDefinition = "TEXT")
     private String note;

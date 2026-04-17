@@ -64,7 +64,7 @@ public class ViaggioService {
     }
 
     public void delete(Long id) {
-        if (viaggioRepository.existsById(id)) {
+        if (!viaggioRepository.existsById(id)) {
             throw new NotFoundException("Viaggio con id " + id + " non trovato");
         }
         viaggioRepository.deleteById(id);

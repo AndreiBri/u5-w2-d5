@@ -16,4 +16,5 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
 
     // Controllare se il dipendente ha giá una prenotazione per quella data
     boolean existsByDipendenteIdAndDataRichiesta(Long dipendenteId, LocalDate dataRichiesta);
+
 }

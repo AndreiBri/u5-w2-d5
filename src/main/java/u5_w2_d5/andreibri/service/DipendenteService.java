@@ -97,7 +97,7 @@ public class DipendenteService {
     }
 
     public DipendenteResponseDTO uploadAvatar(Long id, MultipartFile file) throws IOException {
-        
+
         Dipendente d = dipendenteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Dipendente con id " + id + " non trovato"));
 
@@ -118,6 +118,11 @@ public class DipendenteService {
             throw new NotFoundException("Dipendente con id " + id + " non trovato");
         }
         dipendenteRepository.deleteById(id);
+    }
+
+    public Dipendente findEntityById(Long id) {
+        return dipendenteRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Dipendente con id " + id + " non trovato"));
     }
 
     // Assegnazione di un viaggio a un dipendente
