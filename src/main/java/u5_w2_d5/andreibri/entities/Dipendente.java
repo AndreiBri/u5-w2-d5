@@ -1,9 +1,7 @@
 package u5_w2_d5.andreibri.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Dipendente {
 
     @Id
@@ -45,4 +45,5 @@ public class Dipendente {
             inverseJoinColumns = @JoinColumn(name = "viaggio_id")
     )
     private List<Viaggio> viaggi = new ArrayList<>();
+
 }

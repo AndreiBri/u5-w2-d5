@@ -1,9 +1,7 @@
 package u5_w2_d5.andreibri.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import u5_w2_d5.andreibri.enums.StatoViaggio;
 
 import java.time.LocalDate;
@@ -13,6 +11,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Viaggio {
 
     @Id

@@ -11,4 +11,6 @@ public class ViaggioResponseDTO {
     private String destinazione;
     private LocalDate data;
     private String stato; // Restituito come stringa in modo leggibile
+
+
 }
