@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import u5_w2_d5.andreibri.entities.Viaggio;
 import u5_w2_d5.andreibri.enums.StatoViaggio;
+import u5_w2_d5.andreibri.exception.BadRequestException;
+import u5_w2_d5.andreibri.exception.NotFoundException;
 import u5_w2_d5.andreibri.payloads.StatoUpdateDTO;
 import u5_w2_d5.andreibri.payloads.ViaggioRequestDTO;
 import u5_w2_d5.andreibri.payloads.ViaggioResponseDTO;
@@ -27,7 +29,7 @@ public class ViaggioService {
 
     public ViaggioResponseDTO findById(Long id) {
         Viaggio viaggio = viaggioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Errore nel trovare ID del Viaggio ")); // DA CAMBIARE DOPO CON CUSTOM EXCEPTION
+                .orElseThrow(() -> new NotFoundException("Viaggio con id " + id + " non trovato"));
         return toDTO(viaggio);
     }
 
@@ -48,7 +50,7 @@ public class ViaggioService {
     public ViaggioResponseDTO update(Long id, ViaggioRequestDTO dto) {
 
         Viaggio viaggio = viaggioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Errore nel trovare ID del Viaggio ")); // DA CAMBIARE DOPO CON CUSTOM EXCEPTION
+                .orElseThrow(() -> new NotFoundException("Viaggio con id " + id + " non trovato"));
         viaggio.setData(dto.getData());
         viaggio.setStato(parseStato(dto.getStato()));
         return toDTO(viaggioRepository.save(viaggio));
@@ -56,14 +58,14 @@ public class ViaggioService {
 
     public ViaggioResponseDTO updateStato(Long id, StatoUpdateDTO dto) {
         Viaggio viaggio = viaggioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Errore nel trovare ID del Viaggio ")); // DA CAMBIARE DOPO CON CUSTOM EXCEPTION
+                .orElseThrow(() -> new NotFoundException("Viaggio con id " + id + " non trovato"));
         viaggio.setStato(parseStato(dto.getStato()));
         return toDTO(viaggioRepository.save(viaggio));
     }
 
     public void delete(Long id) {
         if (viaggioRepository.existsById(id)) {
-            throw new RuntimeException("Errore nel trovare ID del Viaggio "); // DA CAMBIARE DOPO CON CUSTOM EXCEPTION
+            throw new NotFoundException("Viaggio con id " + id + " non trovato");
         }
         viaggioRepository.deleteById(id);
     }
@@ -83,7 +85,8 @@ public class ViaggioService {
         try {
             return StatoViaggio.valueOf(stato.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Errore nel stato viaggio enumerato"); // DA IMPLEMENTARE DOPO CON CUSTOM EXCEPTIONS
+            throw new BadRequestException(
+                    "Stato non valido: '" + stato + "'. Valori accettati: IN_PROGRAMMA, COMPLETATO");
         }
     }
 }
