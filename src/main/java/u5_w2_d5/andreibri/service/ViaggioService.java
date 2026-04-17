@@ -2,6 +2,7 @@ package u5_w2_d5.andreibri.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import u5_w2_d5.andreibri.entities.Viaggio;
 import u5_w2_d5.andreibri.enums.StatoViaggio;
 import u5_w2_d5.andreibri.exception.BadRequestException;
@@ -38,6 +39,7 @@ public class ViaggioService {
                 .orElseThrow(() -> new RuntimeException("Errore nel ID del Viaggio "));// DA CAMBIARE DOPO CON CUSTOM EXCEPTION
     }
 
+    @Transactional
     public ViaggioResponseDTO create(ViaggioRequestDTO dto) {
         StatoViaggio stato = parseStato(dto.getStato());
         Viaggio viaggio = new Viaggio();
@@ -56,6 +58,7 @@ public class ViaggioService {
         return toDTO(viaggioRepository.save(viaggio));
     }
 
+    @Transactional
     public ViaggioResponseDTO updateStato(Long id, StatoUpdateDTO dto) {
         Viaggio viaggio = viaggioRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Viaggio con id " + id + " non trovato"));
@@ -63,6 +66,7 @@ public class ViaggioService {
         return toDTO(viaggioRepository.save(viaggio));
     }
 
+    @Transactional
     public void delete(Long id) {
         if (!viaggioRepository.existsById(id)) {
             throw new NotFoundException("Viaggio con id " + id + " non trovato");

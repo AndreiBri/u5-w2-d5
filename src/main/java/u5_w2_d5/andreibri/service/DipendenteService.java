@@ -1,12 +1,13 @@
 package u5_w2_d5.andreibri.service;
 
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import u5_w2_d5.andreibri.entities.Dipendente;
-import u5_w2_d5.andreibri.entities.Viaggio;
 import u5_w2_d5.andreibri.exception.ConflictException;
 import u5_w2_d5.andreibri.exception.NotFoundException;
 import u5_w2_d5.andreibri.payloads.DipendenteRequestDTO;
@@ -40,6 +41,7 @@ public class DipendenteService {
         return toDTO(d);
     }
 
+    @Transactional
     public DipendenteResponseDTO create(DipendenteRequestDTO dto, MultipartFile file) throws IOException {
 
         if (dipendenteRepository.existsByUsername(dto.getUsername())) {
@@ -70,6 +72,7 @@ public class DipendenteService {
     }
 
 
+    @Transactional
     public DipendenteResponseDTO update(Long id, DipendenteRequestDTO dto) {
         Dipendente d = dipendenteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Dipendente con id " + id + " non trovato"));
@@ -96,6 +99,7 @@ public class DipendenteService {
         return toDTO(dipendenteRepository.save(d));
     }
 
+    @Transactional
     public DipendenteResponseDTO uploadAvatar(Long id, MultipartFile file) throws IOException {
 
         Dipendente d = dipendenteRepository.findById(id)
@@ -113,6 +117,7 @@ public class DipendenteService {
     }
 
 
+    @Transactional
     public void delete(Long id) {
         if (!dipendenteRepository.existsById(id)) {
             throw new NotFoundException("Dipendente con id " + id + " non trovato");
@@ -123,23 +128,6 @@ public class DipendenteService {
     public Dipendente findEntityById(Long id) {
         return dipendenteRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Dipendente con id " + id + " non trovato"));
-    }
-
-    // Assegnazione di un viaggio a un dipendente
-    public DipendenteResponseDTO assegnaViaggio(Long dipendenteId, Long viaggioId) {
-        Dipendente d = dipendenteRepository.findById(dipendenteId)
-                .orElseThrow(() -> new NotFoundException("Dipendente con id " + dipendenteId + " non trovato"));
-        Viaggio v = viaggioService.getEntityById(viaggioId);
-
-        boolean giaAssegnato = d.getViaggi().stream()
-                .anyMatch(viaggio -> viaggio.getId().equals(viaggioId));
-
-        if (giaAssegnato) {
-            throw new ConflictException("Il viaggio è già assegnato a questo dipendente");
-        }
-
-        d.getViaggi().add(v);
-        return toDTO(dipendenteRepository.save(d));
     }
 
     // Mapper entity -> DTO
