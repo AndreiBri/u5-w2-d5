@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Integer> {
+public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long> {
 
     List<Prenotazione> findByDipendenteId(Long dipendenteId);
 

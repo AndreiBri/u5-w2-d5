@@ -7,7 +7,7 @@ import u5_w2_d5.andreibri.entities.Dipendente;
 import java.util.Optional;
 
 @Repository
-public interface DipendenteRepository extends JpaRepository<Dipendente, Integer> {
+public interface DipendenteRepository extends JpaRepository<Dipendente, Long> {
 
     Optional<Dipendente> findByUsername(String username);
 
